@@ -67,9 +67,9 @@ export const MassageField: React.FC<Props> = ({
 				const { data } = await axios.post('/upload/massage', formData, {
 					headers: { 'Content-Type': 'multipart/form-data' },
 				})
-				imageUrl = `${import.meta.env.BACKEND_URI || 'http://localhost:4444'}/${
-					data.url
-				}`
+				imageUrl = `${
+					import.meta.env.REACT_APP_BACKEND_URI || 'http://localhost:4444'
+				}/${data.url}`
 			}
 
 			if (updateOfMessage?.messageId) {

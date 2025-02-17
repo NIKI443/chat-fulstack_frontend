@@ -10,7 +10,6 @@ import { Logout } from '@/components/shared'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
 
-
 interface Props {
 	className?: string
 	navPage?: string
@@ -55,10 +54,10 @@ export const Settings = () => {
 			})
 
 			const imageUrl = `${
-				import.meta.env.BACKEND_URI || 'http://localhost:4444'
+				import.meta.env.REACT_APP_BACKEND_URI || 'http://localhost:4444'
 			}/${data.url}`
 
-			updateProfile({ avatarUrl : imageUrl })
+			updateProfile({ avatarUrl: imageUrl })
 			setImageUrl(imageUrl)
 		} catch (error) {
 			console.error('Failed to send/edit message:', error)
