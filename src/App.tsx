@@ -2,7 +2,6 @@ import Login from './pages/auth/login'
 import Register from './pages/auth/register'
 import { Route, Routes, Navigate } from 'react-router'
 import Home from './pages/home'
-import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 
 import { useAuthStore } from './store/useAuthStore'
@@ -14,7 +13,6 @@ import {
 	EditingID,
 } from './components/shared'
 import LayoutPage from './LayoutPage'
-import { AnimatePresence } from 'motion/react'
 
 function App() {
 	const { authUser } = useAuthStore()
