@@ -27,9 +27,9 @@ export const MassageField: React.FC<Props> = ({
 	const { sendMessage, editMessage } = useMessageStore()
 
 	useEffect(() => {
-		if (updateOfMessage?.messageId) {
-			setMessage(updateOfMessage?.text)
-			setImagePreview(updateOfMessage?.imgUrl)
+		if (updateOfMessage?.messageId ) {
+			setMessage(updateOfMessage?.text ?? '')
+			setImagePreview(updateOfMessage?.imgUrl ?? '')
 		} else {
 			setMessage('')
 		}

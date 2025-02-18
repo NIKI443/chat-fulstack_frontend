@@ -1,6 +1,6 @@
 import AddFriendLogo from '~/appsPicture/add.svg?react'
-import AddGroupLogo from '~/appsPicture/add-group.svg?react' // На backend добавить функционал
-import AddBurgerLogo from '~/appsPicture/burger.svg?react'
+// import AddGroupLogo from '~/appsPicture/add-group.svg?react' // На backend добавить функционал
+// import AddBurgerLogo from '~/appsPicture/burger.svg?react'
 import { Button } from '@/components/ui/button'
 import {
 	Popover,
