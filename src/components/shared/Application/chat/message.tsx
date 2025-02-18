@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, RefObject } from 'react'
 import { MessageItem } from '@/components/shared/'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
@@ -7,11 +7,11 @@ import {
 	useMessageStore,
 } from '@/store'
 import { formatTime } from '@/components/hooks/formatTime'
-import { Message } from '@/types/storeType'
+import { Message, UpdateOfMessage } from '@/types/storeType'
 
 interface Props {
-	messageEndRef?: string
-	updateMessage?: React.Dispatch<React.SetStateAction<{}>>
+	messageEndRef: RefObject<HTMLDivElement>
+	updateMessage: React.Dispatch<React.SetStateAction<UpdateOfMessage | null>>
 }
 
 export const MessageComponent: React.FC<Props> = ({ messageEndRef, updateMessage }) => {
@@ -20,8 +20,8 @@ export const MessageComponent: React.FC<Props> = ({ messageEndRef, updateMessage
 	const { getMessages, messages } = useMessageStore()
 
 	useEffect(() => {
-		getMessages(selectedUser.roomId)
-	}, [getMessages, selectedUser.roomId])
+		if (selectedUser) getMessages(selectedUser.roomId)
+	}, [getMessages, selectedUser?.roomId])
 	const isMessageFromAuthUser = useCallback(
 		(senderId: string) => senderId === authUser?._id,
 		[authUser?._id]

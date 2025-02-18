@@ -6,15 +6,13 @@ import { cn } from '@/lib/utils'
 import { useMessageStore } from '@/store'
 import axios from '@/lib/axios'
 import toast from 'react-hot-toast'
-
+import { UpdateOfMessage } from '@/types/storeType'
 interface Props {
 	className?: string
-	updateOfMessage?: {
-		messageId: string
-		text: string
-		imgUrl: string
-	} | null
-	setUpdatedOfMessage?: React.Dispatch<React.SetStateAction<{} | null>>
+	updateOfMessage?: UpdateOfMessage | null
+	setUpdatedOfMessage?: React.Dispatch<
+		React.SetStateAction<UpdateOfMessage | null>
+	>
 }
 
 export const MassageField: React.FC<Props> = ({
@@ -166,7 +164,7 @@ export const MassageField: React.FC<Props> = ({
 						size='icon'
 						variant='link'
 						className={`h-14 -mx-3 right-0 rounded-lg`}
-						onClick={(e: React.ChangeEvent<HTMLButtonElement>) => {
+						onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
 							e.preventDefault()
 							inputFileRef.current?.click()
 						}}

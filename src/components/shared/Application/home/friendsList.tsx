@@ -9,14 +9,9 @@ import {
 	useAuthStore,
 	useDialogStore,
 } from '@/store'
+import { User, Chats } from '@/types/storeType'
 
 
-interface ChatState {
-	_id: string
-	fullName: string
-	avatarUrl: string
-	roomId: string
-}
 
 
 export const Friends = () => {
@@ -39,7 +34,8 @@ export const Friends = () => {
 	}, [endMessages, getChatsFriend, updateEndMessages])
 
 	const handleChatSelect = useCallback(
-		(chat: ChatState) => {
+		(chat: Chats | User) => {
+			console.log(chat)
 			setSelectedUser(null)
 			setSelectedUser(chat)
 			setOpen(true)
@@ -47,8 +43,9 @@ export const Friends = () => {
 		[setSelectedUser]
 	)
 
+
 	const renderChatItem = useCallback(
-		(chat: ChatState) => {
+		(chat: User | Chats) => {
 			const endMessage = endMessagesMap.get(chat.roomId)
 			return (
 				<Button
@@ -71,14 +68,14 @@ export const Friends = () => {
 						}
 						checkYour={endMessage?.seen}
 						check={
-							endMessage?.senderId === authUser._id && !endMessage?.isFirst
+							endMessage?.senderId === authUser?._id && !endMessage?.isFirst
 						}
 						numberMessages={0}
 					/>
 				</Button>
 			)
 		},
-		[endMessagesMap, authUser._id, handleChatSelect]
+		[endMessagesMap, authUser?._id, handleChatSelect]
 	)
 
 	return (
@@ -91,7 +88,7 @@ export const Friends = () => {
 					? Array(5)
 							.fill(null)
 							.map((_, index) => <FriendChatSkeleton key={index} />)
-					: (chatsFiltered || chats).map((chat: ChatState) => (
+					: (chatsFiltered || chats).map((chat: User | Chats) => (
 							<div key={chat._id}>{renderChatItem(chat)}</div>
 					  ))}
 			</ScrollArea>

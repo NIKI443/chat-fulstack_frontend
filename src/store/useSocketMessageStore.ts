@@ -35,7 +35,7 @@ export const useSocketMessageStore = create<MessageActions>()(() => ({
 		const messages = useMessageStore.getState().messages
 		const selectedUser = useChatStore.getState().selectedUser
 
-		socket.on('messagesSeen', ({ roomId }) => {
+  socket.on('messagesSeen', ({ roomId }: { roomId: string }) => {
 			if (selectedUser?._id && selectedUser?.roomId === roomId) {
 				const updatedMessages = messages.map(message => {
 					if (!message.seen) {
@@ -82,35 +82,38 @@ export const useSocketMessageStore = create<MessageActions>()(() => ({
 			})
 		})
 
-		socket.on('editMessage', (updateMessage: Message, { messageId }) => {
-			const messages = useMessageStore.getState().messages
+		socket.on(
+			'editMessage',
+			(updateMessage: Message, { messageId }: { messageId: string }) => {
+				const messages = useMessageStore.getState().messages
 
-			const updatedMessagesImg: MessagesImg[] = []
+				const updatedMessagesImg: MessagesImg[] = []
 
-			const updateMessages = messages.map(message => {
-				if (message._id !== messageId && message.image?.url) {
-					updatedMessagesImg.push(message)
-				}
-				if (message._id === messageId) {
-					const { text, image, ...dataMessage } = message
-					const updatedMessage = {
-						...dataMessage,
-						text: updateMessage?.text,
-						image: updateMessage?.image,
+				const updateMessages = messages.map(message => {
+					if (message._id !== messageId && message.image?.url) {
+						updatedMessagesImg.push(message)
 					}
-					if (updateMessage?.image?.url) {
-						updatedMessagesImg.push(updatedMessage)
+					if (message._id === messageId) {
+						const { text, image, ...dataMessage } = message
+						const updatedMessage = {
+							...dataMessage,
+							text: updateMessage?.text,
+							image: updateMessage?.image,
+						}
+						if (updateMessage?.image?.url) {
+							updatedMessagesImg.push(updatedMessage)
+						}
+						return updatedMessage
 					}
-					return updatedMessage
-				}
-				return message
-			})
+					return message
+				})
 
-			useMessageStore.setState({
-				messages: updateMessages,
-				messagesImg: updatedMessagesImg,
-			})
-		})
+				useMessageStore.setState({
+					messages: updateMessages,
+					messagesImg: updatedMessagesImg,
+				})
+			}
+		)
 	},
 
 	unsubscribeFromMessages: () => {

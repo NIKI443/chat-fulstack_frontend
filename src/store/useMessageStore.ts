@@ -3,7 +3,11 @@ import toast from 'react-hot-toast'
 import axios from '@/lib/axios'
 import { useChatStore } from './useChatStore'
 import { useDialogStore } from './useDialogStore'
-import { Message, MessagesImg, Error } from '@/types/storeType'
+import {
+	Message,
+	MessagesImg,
+	EditSendMessage,
+} from '@/types/storeType'
 
 interface MessageState {
 	messages: Message[]
@@ -14,9 +18,12 @@ interface MessageState {
 
 interface MessageActions {
 	getMessages: (userId: string) => Promise<void>
-	editMessage: (messageId: string, messageData: Message) => Promise<void>
+	editMessage: (
+		messageId: string,
+		messageData: EditSendMessage
+	) => Promise<void>
 	deleteOfMessage: (messageId: string) => Promise<void>
-	sendMessage: (messageData: { content: string }) => Promise<void>
+	sendMessage: (messageData: EditSendMessage) => Promise<void>
 }
 
 export const useMessageStore = create<MessageState & MessageActions>()(
@@ -58,7 +65,7 @@ export const useMessageStore = create<MessageState & MessageActions>()(
 					useDialogStore.setState({ endMessages: updatedEndMessages })
 					set({ messages: updatedMessages })
 				}
-			} catch (error: Error) {
+			} catch (error: any) {
 				toast.error(
 					error.response?.data?.message || 'Не удалось удалить сообщение'
 				)
@@ -83,7 +90,7 @@ export const useMessageStore = create<MessageState & MessageActions>()(
 					}
 					if (message._id === messageId) {
 						const { text, image, ...dataMessage } = message
-						const updatedMessage = {
+						const updatedMessage: Message = {
 							...dataMessage,
 							text: messageData?.text,
 							image: {
@@ -92,7 +99,7 @@ export const useMessageStore = create<MessageState & MessageActions>()(
 								height: messageData?.height,
 							},
 						}
-						if (messageData?.imgUrl) {
+						if (updatedMessage.image?.url) {
 							updatedMessagesImg.push(updatedMessage)
 						}
 						return updatedMessage
@@ -119,7 +126,7 @@ export const useMessageStore = create<MessageState & MessageActions>()(
 				useDialogStore.setState({ endMessages: updatedEndMessages })
 
 				set({ messages: updatedMessages, messagesImg: updatedMessagesImg })
-			} catch (error: Error) {
+			} catch (error: any) {
 				toast.error(
 					error.response?.data?.message || 'Не удалось изменить сообщение'
 				)
@@ -134,7 +141,7 @@ export const useMessageStore = create<MessageState & MessageActions>()(
 					(message: MessagesImg) => message.image?.url
 				)
 				set({ messages: res.data, messagesImg: messagesImage })
-			} catch (error: Error) {
+			} catch (error: any) {
 				toast.error(error.response.data.message)
 			} finally {
 				set({ isMessagesLoading: false })
@@ -163,7 +170,7 @@ export const useMessageStore = create<MessageState & MessageActions>()(
 					set({ messagesImg: [...messagesImg, res.data] })
 				}
 				set({ messages: [...messages, res.data] })
-			} catch (error: Error) {
+			} catch (error: any) {
 				toast.error(error.response.data.message)
 			}
 		},

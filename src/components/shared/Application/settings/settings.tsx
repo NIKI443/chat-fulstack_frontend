@@ -73,7 +73,7 @@ export const Settings = () => {
 				>
 					<AspectRatio ratio={16 / 9}>
 						<img
-							src={imageUrl || authUser.avatarUrl || 'AddImg.png'}
+							src={imageUrl || authUser?.avatarUrl || 'AddImg.png'}
 							alt='avatar'
 							className='h-full w-full -mt-7 xs:m-0 xs:rounded-t-lg'
 						/>
@@ -91,7 +91,7 @@ export const Settings = () => {
 				<div>
 					<div className='group'>
 						<SettingsItem navPage='name&surname'>
-							<p>{authUser.name}</p>
+							<p>{authUser?.name}</p>
 							<Button
 								size='icon'
 								variant='link'
@@ -107,7 +107,7 @@ export const Settings = () => {
 
 					<div className='group'>
 						<SettingsItem navPage='email&password'>
-							<p>{authUser.email}</p>
+							<p>{authUser?.email}</p>
 							<Button
 								size='icon'
 								variant='link'
@@ -129,7 +129,7 @@ export const Settings = () => {
 						<SettingsItem navPage='ID'>
 							<div className='flex gap-2.5'>
 								ID
-								<p className='font-normal'>{authUser.UserID}</p>
+								<p className='font-normal'>{authUser?.UserID}</p>
 							</div>
 							<Button
 								size='icon'

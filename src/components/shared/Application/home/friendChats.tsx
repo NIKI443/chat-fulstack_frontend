@@ -13,11 +13,9 @@ export const ChatsFriend = () => {
 	const { getChatsFriend, searchChat, updateEndMessages } = useDialogStore()
 
 	useEffect(() => {
-		searchChat()
-		searchUser()
 		getUsers()
 		getChatsFriend()
-	}, [getUsers, getChatsFriend, searchChat, searchUser])
+	}, [getUsers, getChatsFriend])
 
 	useEffect(() => {
 		updateEndMessages()

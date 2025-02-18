@@ -1,29 +1,19 @@
 import { create } from 'zustand'
 import toast from 'react-hot-toast'
 import axios from '@/lib/axios'
-import { Error } from '@/types/storeType'
+import { User, Chats } from '@/types/storeType'
 
-interface User {
-	_id: string
-	name: string
-	passwordHash: string
-	surname?: string
-	UserID: string
-	createdAt: string
-	updatedAt: string
-	roomId: string
-}
 interface ChatState {
 	users: User[]
 	filteredUsers: User[]
-	selectedUser: User | null
+	selectedUser: Chats | User | null
 	isUsersLoading: boolean
 	open: boolean
 }
 interface ChatActions {
 	getUsers: () => Promise<void>
 	searchUser: (search: string) => Promise<void>
-	setSelectedUser: (selectedUser: User) => void
+	setSelectedUser: (selectedUser: Chats | User | null) => void
 	setOpen: (isOpen: boolean) => void
 }
 
@@ -60,7 +50,7 @@ export const useChatStore = create<ChatState & ChatActions>()((set, get) => ({
 			const res = await axios.get('/users')
 
 			set({ users: res.data })
-		} catch (error: Error) {
+		} catch (error: any) {
 			toast.error(error.response.data.message)
 		} finally {
 			set({ isUsersLoading: false })

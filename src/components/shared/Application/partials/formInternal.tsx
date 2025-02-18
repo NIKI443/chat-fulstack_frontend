@@ -100,7 +100,7 @@ export const FormInternal: React.FC<React.PropsWithChildren<Props>> = ({
 					.optional()
 					.or(z.literal('')),
 	})
-	type FormSchemaType = z.infer<typeof UserAuthData>
+ type FormSchemaType = z.infer<typeof FormSchema>
 
 	const form = useForm<FormSchemaType>({
 		resolver: zodResolver(FormSchema),

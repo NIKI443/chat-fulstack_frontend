@@ -11,38 +11,44 @@ import { useMessageStore } from '@/store'
 import { MessagesImg } from '@/types/storeType'
 
 export const Slide: React.FC<React.PropsWithChildren<{ imageUrl: string }>> = ({
-	children,
-	imageUrl,
+    children,
+    imageUrl,
 }) => {
-	const [index, setIndex] = useState(-1)
-	const { messagesImg } = useMessageStore()
+    const [index, setIndex] = useState(-1)
+    const { messagesImg } = useMessageStore()
 
-	const slides = messagesImg.map(({ image }: MessagesImg) => {
-		return {
-			src: image.url,
-			width: image.width,
-			height: image.height,
-		}
-	})
-	const massageSlide = () => {
-		messagesImg.map(({ image }: MessagesImg, index: number) => {
-			if (image.url == imageUrl) {
-				setIndex(index)
-			}
-		})
-	}
-	return (
-		<>
-			<button type='button' onClick={massageSlide}>
-				{children}
-			</button>
-			<Lightbox
-				index={index}
-				open={index >= 0}
-				close={() => setIndex(-1)}
-				slides={slides}
-				plugins={[Counter, Zoom, Download]}
-			/>
-		</>
-	)
+    const slides = messagesImg.flatMap(({ image }: MessagesImg) => {
+        if (image) {
+            return {
+                src: image.url,
+                width: image.width,
+                height: image.height,
+            }
+        }
+        return []
+    })
+
+    const massageSlide = () => {
+        messagesImg.forEach(({ image }: MessagesImg, index: number) => {
+            if (image && image.url === imageUrl) {
+                setIndex(index)
+            }
+        })
+    }
+
+    return (
+        <>
+            <button type='button' onClick={massageSlide}>
+                {children}
+            </button>
+            <Lightbox
+                index={index}
+                open={index >= 0}
+                close={() => setIndex(-1)}
+                slides={slides}
+                plugins={[Counter, Zoom, Download]}
+            />
+        </>
+    )
 }
+

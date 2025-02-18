@@ -39,6 +39,7 @@ export const MenuTrigger = forwardRef<
 	HTMLProps<HTMLElement> & MenuTriggerProps
 >(function MenuTrigger({ children, asChild = false, ...props }, propRef) {
 	const context = useMenuContext()
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const childrenRef = (children as any).ref
 	const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
 	if (asChild && isValidElement(children)) {
@@ -97,22 +98,20 @@ export const MenuContent = forwardRef<
 	return (
 		<FloatingPortal>
 			<FloatingFocusManager context={floatingContext} modal={context.modal}>
-				<>
-					<div
-						ref={ref}
-						style={{ ...context.floatingStyles, ...style }}
-						aria-labelledby={context.labelId}
-						aria-describedby={context.descriptionId}
-						{...context.getFloatingProps(props)}
-						className={cn(
-							'z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
-							'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-							className
-						)}
-					>
-						{children}
-					</div>
-				</>
+				<div
+					ref={ref}
+					style={{ ...context.floatingStyles, ...style }}
+					aria-labelledby={context.labelId}
+					aria-describedby={context.descriptionId}
+					{...context.getFloatingProps(props)}
+					className={cn(
+						'z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+						'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+						className
+					)}
+				>
+					{children}
+				</div>
 			</FloatingFocusManager>
 		</FloatingPortal>
 	)
@@ -125,7 +124,7 @@ export const MenuItem = forwardRef<
 		message?: boolean
 		onItemSelect?: (data: Data) => void
 		dataValue?: Data
-		label: string
+		label?: string
 		disabled?: boolean
 	}
 >(
@@ -155,7 +154,7 @@ export const MenuItem = forwardRef<
 				)}
 				onClick={event => {
 					props.onClick?.(event)
-					if (onItemSelect) {
+					if (onItemSelect && dataValue) {
 						onItemSelect(dataValue)
 					}
 				}}

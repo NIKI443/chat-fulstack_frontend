@@ -12,6 +12,7 @@ import {
 	useSocketMessageStore,
 } from '@/store'
 import { cn } from '@/lib/utils'
+import { UpdateOfMessage } from '@/types/storeType'
 
 interface Props {
 	className?: string
@@ -27,8 +28,10 @@ export const Chat: FC<Props> = ({ className }) => {
 		updateMessageSeenStatus,
 		updateLatestMessagesSeenStatus,
 	} = useSocketMessageStore()
-	const messageEndRef = useRef(null)
-	const [updateMessage, setUpdatedMessage] = useState({})
+	const messageEndRef = useRef<HTMLDivElement | null>(null)
+	const [updateMessage, setUpdatedMessage] = useState<UpdateOfMessage | null>(
+		null
+	)
 
 	const LastMassage = messages[messages.length - 1]
 
@@ -56,7 +59,7 @@ export const Chat: FC<Props> = ({ className }) => {
 		return () => {
 			unsubscribeFromMessages()
 		}
-	}, [messages, subscribeToMessages, unsubscribeFromMessages, selectedUser._id])
+	}, [messages, subscribeToMessages, unsubscribeFromMessages, selectedUser?._id])
 
 	return (
 		<Container
@@ -66,9 +69,11 @@ export const Chat: FC<Props> = ({ className }) => {
 			)}
 		>
 			<ChatHeader
-				name={selectedUser.fullName}
-				checkOnline={onlineUsers.includes(selectedUser._id)}
-				avatar={selectedUser.avatarUrl}
+				name={selectedUser?.fullName}
+				checkOnline={
+					selectedUser?._id ? onlineUsers.includes(selectedUser?._id) : false
+				}
+				avatar={selectedUser?.avatarUrl}
 			/>
 			<MessageComponent
 				messageEndRef={messageEndRef}

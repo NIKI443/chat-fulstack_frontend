@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useRef, useState } from 'react'
+import { Dispatch, FC, RefObject, SetStateAction, useRef, useState } from 'react'
 import AddFriendLogo from '~/appsPicture/add.svg?react'
 import { ActionConfirm } from '@/components/shared'
 import { useMessageStore } from '@/store'
@@ -9,7 +9,7 @@ import {
 	MenuOverlay,
 	MenuContent,
 } from '@/components/ui/context-menu_floating'
-import { Data } from '@/types/storeType'
+import { Data, UpdateOfMessage } from '@/types/storeType'
 
 interface Props {
 	messageText?: string
@@ -17,9 +17,9 @@ interface Props {
 	checkYour: boolean
 	check?: boolean
 	time: string
-	messageEndRef: string
+	messageEndRef: RefObject<HTMLDivElement>
 	messageId: string
-	updateMessage: Dispatch<SetStateAction<{}>>
+	updateMessage: Dispatch<SetStateAction<UpdateOfMessage | null>>
 }
 
 export const MessageItem: FC<Props> = ({
@@ -45,9 +45,9 @@ export const MessageItem: FC<Props> = ({
 
 		if (data?.do === 'update') {
 			updateMessage({
-				text: data?.text,
+				text: data?.text ?? '',
 				messageId: data.id,
-				imgUrl: data?.imgUrl,
+				imgUrl: data?.imgUrl ?? '',
 			})
 		}
 	}
@@ -103,9 +103,9 @@ export const MessageItem: FC<Props> = ({
 						className='[&_svg]:size-5 '
 						onItemSelect={handleItemSelect}
 						dataValue={{
-							id: messageId,
+							id: messageId ,
 							do: 'update',
-							text: messageText,
+							text: messageText ,
 							imgUrl: messageImg,
 						}}
 						message

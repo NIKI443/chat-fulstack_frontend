@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import axios from '@/lib/axios.ts'
 import { toast } from 'react-hot-toast'
 import { io } from 'socket.io-client'
-import { User, UserAuthData, Error } from '@/types/storeType'
+import { User, UserAuthData } from '@/types/storeType'
 
 const BASE_URL =
 	import.meta.env.MODE === 'development' ? 'http://localhost:4444' : '/'
@@ -14,7 +14,7 @@ interface AuthState {
 	isLoggingIn: boolean
 	isUpdatingProfile: boolean
 	isCheckingAuth: boolean
-	onlineUsers: User[]
+	onlineUsers: string[]
 }
 
 interface AuthActions {
@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthState & AuthActions>()((set, get) => ({
 			const res = await axios.get('/user')
 			set({ authUser: res.data })
 			get().connectSocket()
-		} catch (error: Error) {
+		} catch (error: any) {
 			set({ authUser: null })
 		} finally {
 			set({ isCheckingAuth: false })
@@ -57,7 +57,7 @@ export const useAuthStore = create<AuthState & AuthActions>()((set, get) => ({
 			}
 			get().connectSocket()
 			toast.success('Аккаунт успешно создан')
-		} catch (error: Error) {
+		} catch (error: any) {
 			toast.error(
 				error.response.data.message || 'Не удалось зарегистрироваться'
 			)
@@ -76,7 +76,7 @@ export const useAuthStore = create<AuthState & AuthActions>()((set, get) => ({
 			}
 			get().connectSocket()
 			toast.success('Вы вошли в аккаунт')
-		} catch (error: Error) {
+		} catch (error: any) {
 			toast.error(error.response.data.message || 'Не удалось авторизоваться')
 		} finally {
 			set({ isLoggingIn: false })
@@ -87,7 +87,7 @@ export const useAuthStore = create<AuthState & AuthActions>()((set, get) => ({
 		try {
 			set({ authUser: null })
 			toast.success('Вы вышли из аккаунта')
-		} catch (error: Error) {
+		} catch (error: any) {
 			toast.error(
 				error.response?.data?.message ||
 					'Произошла ошибка при выходе из аккаунта'
@@ -101,7 +101,7 @@ export const useAuthStore = create<AuthState & AuthActions>()((set, get) => ({
 			const res = await axios.patch('/user/update', data)
 			set({ authUser: res.data.userData })
 			toast.success('Профиль обновлен')
-		} catch (error: Error) {
+		} catch (error: any) {
 			console.log('error in update profile:', error)
 			toast.error(
 				error.response?.data?.message ||

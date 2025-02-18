@@ -1,14 +1,19 @@
 import { create } from 'zustand'
 import toast from 'react-hot-toast'
 import axios from '@/lib/axios'
-import { Message, Chats, User, Error } from '@/types/storeType'
+import {
+	Message,
+	EndMessages,
+	Chats,
+	User,
+} from '@/types/storeType'
 import { useAuthStore } from './useAuthStore'
 
 interface DialogState {
 	isChatsLoading: boolean
 	chats: Chats[]
 	chatsFiltered: Chats[]
-	endMessages: Message[]
+	endMessages: EndMessages[]
 }
 interface DialogActions {
 	createDialog: (UserId: string) => Promise<void>
@@ -54,7 +59,7 @@ export const useDialogStore = create<DialogState & DialogActions>()(
 					(chat: User) => chat._id.toString() !== my._id.toString()
 				)
 				set({ chats: usersDataFilter })
-			} catch (error: Error) {
+			} catch (error: any) {
 				toast.error(error.response?.data?.message || 'Не удалось найти чаты')
 				console.log(error)
 			} finally {
@@ -91,7 +96,7 @@ export const useDialogStore = create<DialogState & DialogActions>()(
 						...endMessages,
 					],
 				})
-			} catch (error: Error) {
+			} catch (error: any) {
 				console.log(error)
 				toast.error(error.response?.data?.message || 'Чат уже существует')
 			} finally {
