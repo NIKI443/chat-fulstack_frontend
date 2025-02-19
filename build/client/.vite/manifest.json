@@ -1,0 +1,57 @@
+{
+  "_chunk-K6AXKMTT-CQurkQyT.js": {
+    "file": "assets/chunk-K6AXKMTT-CQurkQyT.js",
+    "name": "chunk-K6AXKMTT"
+  },
+  "_index-DTCZI1Vr.js": {
+    "file": "assets/index-DTCZI1Vr.js",
+    "name": "index",
+    "imports": [
+      "_chunk-K6AXKMTT-CQurkQyT.js"
+    ]
+  },
+  "_with-props-8ZsiHTWN.js": {
+    "file": "assets/with-props-8ZsiHTWN.js",
+    "name": "with-props",
+    "imports": [
+      "_chunk-K6AXKMTT-CQurkQyT.js"
+    ]
+  },
+  "src/App.tsx?__react-router-build-client-route": {
+    "file": "assets/App-DYcgX8RX.js",
+    "name": "App",
+    "src": "src/App.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_with-props-8ZsiHTWN.js",
+      "_chunk-K6AXKMTT-CQurkQyT.js",
+      "_index-DTCZI1Vr.js"
+    ],
+    "css": [
+      "assets/App-BJP_pU5z.css"
+    ]
+  },
+  "src/entry.client.tsx": {
+    "file": "assets/entry.client-DjrNdG-t.js",
+    "name": "entry.client",
+    "src": "src/entry.client.tsx",
+    "isEntry": true,
+    "imports": [
+      "_chunk-K6AXKMTT-CQurkQyT.js",
+      "_index-DTCZI1Vr.js"
+    ],
+    "css": [
+      "assets/entry-B7BA0KF1.css"
+    ]
+  },
+  "src/root.tsx?__react-router-build-client-route": {
+    "file": "assets/root-BC0fo9oQ.js",
+    "name": "root",
+    "src": "src/root.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_with-props-8ZsiHTWN.js",
+      "_chunk-K6AXKMTT-CQurkQyT.js"
+    ]
+  }
+}
