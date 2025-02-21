@@ -1,18 +1,18 @@
-import Login from './pages/auth/login'
-import Register from './pages/auth/register'
+import Login from '@/pages/auth/login'
+import Register from '@/pages/auth/register'
 import { Route, Routes, Navigate } from 'react-router'
-import Home from './pages/home'
+import Home from '@/pages/home'
 import { Toaster } from 'react-hot-toast'
 
-import { useAuthStore } from './store/useAuthStore'
-import Setting from './pages/setting'
-import ErrorPage from './pages/errorPage'
+import { useAuthStore } from '@/store/useAuthStore'
+import Setting from '@/pages/setting'
+import ErrorPage from '@/pages/errorPage'
 import {
 	EditingNameSurname,
 	EditingEmailPassword,
 	EditingID,
-} from './components/shared'
-import LayoutPage from './LayoutPage'
+} from '@/components/shared'
+import LayoutPage from '@/LayoutPage'
 
 function App() {
 	const { authUser } = useAuthStore()
