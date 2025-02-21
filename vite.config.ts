@@ -12,4 +12,7 @@ export default defineConfig({
 			'~': path.resolve(__dirname, './public'),
 		},
 	},
+	build: {
+		chunkSizeWarningLimit: 1600,
+	},
 })
