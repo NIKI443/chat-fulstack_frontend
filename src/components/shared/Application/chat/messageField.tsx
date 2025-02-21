@@ -66,7 +66,7 @@ export const MassageField: React.FC<Props> = ({
 					headers: { 'Content-Type': 'multipart/form-data' },
 				})
 				imageUrl = `${
-					import.meta.env.REACT_APP_BACKEND_URI || 'http://localhost:4444'
+					import.meta.env.VITE_REACT_APP_BACKEND_URI || 'http://localhost:4444'
 				}/${data.url}`
 			}
 

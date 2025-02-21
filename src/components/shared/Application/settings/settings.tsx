@@ -54,7 +54,7 @@ export const Settings = () => {
 			})
 
 			const imageUrl = `${
-				import.meta.env.REACT_APP_BACKEND_URI || 'http://localhost:4444'
+				import.meta.env.VITE_REACT_APP_BACKEND_URI || 'http://localhost:4444'
 			}/${data.url}`
 
 			updateProfile({ avatarUrl: imageUrl })
