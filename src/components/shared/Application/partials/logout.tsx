@@ -1,6 +1,6 @@
 import React from 'react'
 import ExitLogo from '~/appsPicture/exit.svg?react'
-import { useAuthStore } from '@/store'
+import { useAuthStore, useDialogStore } from '@/store'
 import { cn } from '@/lib/utils'
 
 import { Button } from '@/components/ui/button'
@@ -15,6 +15,7 @@ export const Logout: React.FC<Props> = ({ className, classExit }) => {
 	const { logout } = useAuthStore()
 	const onClickLogout = () => {
 		logout()
+		useDialogStore.setState({ chats: [], isNoChats: false })
 		window.localStorage.removeItem('token')
 	}
 	return (

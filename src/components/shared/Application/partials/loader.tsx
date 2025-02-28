@@ -10,7 +10,7 @@ export const Loader: React.FC<Props> = ({ className }) => {
 		<div>
 			<div
 				className={cn(
-					'loader w-6 h-6 rounded-full border-[3px] border-white border-l-transparent animate-spin',
+					'w-6 h-6 rounded-full border-[3px] border-white border-l-transparent animate-spin',
 					className
 				)}
 			/>

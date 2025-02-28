@@ -1,16 +1,13 @@
 import { create } from 'zustand'
 import toast from 'react-hot-toast'
 import axios from '@/lib/axios'
-import {
-	Message,
-	EndMessages,
-	Chats,
-	User,
-} from '@/types/storeType'
+import { Message, EndMessages, Chats, User } from '@/types/storeType'
 import { useAuthStore } from './useAuthStore'
 
 interface DialogState {
 	isChatsLoading: boolean
+	isUpdateChatsLoading: boolean
+	isNoChats: boolean
 	chats: Chats[]
 	chatsFiltered: Chats[]
 	endMessages: EndMessages[]
@@ -25,9 +22,11 @@ interface DialogActions {
 export const useDialogStore = create<DialogState & DialogActions>()(
 	(set, get) => ({
 		isChatsLoading: false,
+		isUpdateChatsLoading: false,
 		endMessages: [],
 		chats: [],
 		chatsFiltered: [],
+		isNoChats: false,
 
 		getChatsFriend: async () => {
 			set({ isChatsLoading: true })
@@ -58,6 +57,11 @@ export const useDialogStore = create<DialogState & DialogActions>()(
 				const usersDataFilter = usersData.filter(
 					(chat: User) => chat._id.toString() !== my._id.toString()
 				)
+				if (!usersDataFilter?.length) {
+					set({ isNoChats: true })
+				} else {
+					set({ isNoChats: false })
+				}
 				set({ chats: usersDataFilter })
 			} catch (error: any) {
 				toast.error(error.response?.data?.message || 'Не удалось найти чаты')
@@ -72,7 +76,7 @@ export const useDialogStore = create<DialogState & DialogActions>()(
 			const { data: my } = await axios.get('/user')
 			const { endMessages } = get()
 
-			set({ isChatsLoading: true })
+			set({ isUpdateChatsLoading: true, isNoChats: false })
 			try {
 				const res = await axios.post('/dialogue', UserId)
 				const userPromises = res.data.users.map(async (userId: string) => {
@@ -90,6 +94,11 @@ export const useDialogStore = create<DialogState & DialogActions>()(
 					(chat: User) => chat._id.toString() !== my._id.toString()
 				)
 				chats.push(usersDataFilter[0])
+				if (!usersDataFilter?.length) {
+					set({ isNoChats: true })
+				} else {
+					set({ isNoChats: false })
+				}
 				set({
 					endMessages: [
 						{ chat: res.data.lastMessage, roomId: res.data._id },
@@ -100,12 +109,12 @@ export const useDialogStore = create<DialogState & DialogActions>()(
 				console.log(error)
 				toast.error(error.response?.data?.message || 'Чат уже существует')
 			} finally {
-				set({ isChatsLoading: false })
+				set({ isUpdateChatsLoading: false })
 			}
 		},
 
 		searchChat: async (searchText?: string) => {
-			set({ isChatsLoading: true })
+			set({ isUpdateChatsLoading: true })
 			const { chats } = get()
 			let chatsFilter
 			try {
@@ -117,7 +126,7 @@ export const useDialogStore = create<DialogState & DialogActions>()(
 				}
 				set({ chatsFiltered: chatsFilter })
 			} finally {
-				set({ isChatsLoading: false })
+				set({ isUpdateChatsLoading: false })
 			}
 		},
 

@@ -7,7 +7,7 @@
 	"scripts": {
 		"dev": "react-router dev",
 		"build": "react-router build",
-		"lint": "eslint .",
+		"lint": "tsc -b && eslint .",
 		"preview": "vite preview"
 	},
 	"dependencies": {

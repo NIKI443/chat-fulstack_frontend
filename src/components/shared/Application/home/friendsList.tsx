@@ -4,28 +4,23 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 import { formatTime } from '@/components/hooks/formatTime'
 
-import {
-	useChatStore,
-	useAuthStore,
-	useDialogStore,
-} from '@/store'
+import { useChatStore, useAuthStore, useDialogStore } from '@/store'
 import { User, Chats } from '@/types/storeType'
-
-
-
 
 export const Friends = () => {
 	const scrollAreaRef = useRef<HTMLDivElement>(null)
 
 	const { authUser } = useAuthStore()
-	const { setSelectedUser, setOpen } = useChatStore()
+	const { setSelectedUser, setOpen, isActiveSidMenu } = useChatStore()
 	const {
 		chats,
 		chatsFiltered,
 		isChatsLoading,
+		isUpdateChatsLoading,
 		endMessages,
 		getChatsFriend,
 		updateEndMessages,
+		isNoChats,
 	} = useDialogStore()
 
 	const endMessagesMap = useMemo(() => {
@@ -35,14 +30,12 @@ export const Friends = () => {
 
 	const handleChatSelect = useCallback(
 		(chat: Chats | User) => {
-			console.log(chat)
 			setSelectedUser(null)
 			setSelectedUser(chat)
 			setOpen(true)
 		},
-		[setSelectedUser]
+		[setSelectedUser, setOpen]
 	)
-
 
 	const renderChatItem = useCallback(
 		(chat: User | Chats) => {
@@ -82,9 +75,17 @@ export const Friends = () => {
 		<Container className='w-full h-full xxs:w-95 m-0 pt-4 pl-3.5 xs:pl-5 xs:pr-1.5 xs:pt-6 font-normal text-menubar rounded-lg bg-white'>
 			<ScrollArea
 				ref={scrollAreaRef}
-				className='h-friend_xs xs:h-friend w-full pr-3.5'
+				className={`
+					${isActiveSidMenu ? 'h-friend_xs_inactive' : 'h-friend_xs_active'} 
+				 xs:h-friend w-full pr-3.5`}
 			>
-				{isChatsLoading
+				{isNoChats && (
+					<div className='text-lg text-zinc-500 -ml-1 text-center'>
+						Добавьте друзей
+					</div>
+				)}
+
+				{isChatsLoading || isUpdateChatsLoading
 					? Array(5)
 							.fill(null)
 							.map((_, index) => <FriendChatSkeleton key={index} />)

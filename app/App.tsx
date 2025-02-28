@@ -1,22 +1,26 @@
+import { useEffect } from 'react'
+import { Route, Routes, Navigate } from 'react-router'
+
 import Login from '@/pages/auth/login'
 import Register from '@/pages/auth/register'
-import { Route, Routes, Navigate } from 'react-router'
 import Home from '@/pages/home'
-import { Toaster } from 'react-hot-toast'
-
-import { useAuthStore } from '@/store/useAuthStore'
 import Setting from '@/pages/setting'
 import ErrorPage from '@/pages/errorPage'
-import {
-	EditingNameSurname,
-	EditingEmailPassword,
-	EditingID,
-} from '@/components/shared'
+import GlobalSpinner from '@/pages/globalSpinner'
+
 import LayoutPage from '@/LayoutPage'
+import { useAuthStore } from '@/store/useAuthStore'
+
+import { Toaster } from 'react-hot-toast'
+import { SettingRouts } from '@/routes'
 
 function App() {
-	const { authUser } = useAuthStore()
+	const { isCheckingAuth, AuthMe, authUser } = useAuthStore()
+	useEffect(() => {
+		AuthMe()
+	}, [AuthMe])
 
+	if (isCheckingAuth && !authUser) return <GlobalSpinner />
 	return (
 		<>
 			<Routes>
@@ -30,9 +34,15 @@ function App() {
 							index
 							element={authUser ? <Setting /> : <Navigate to='/login' />}
 						/>
-						<Route path='name&surname' element={<EditingNameSurname />} />
-						<Route path='email&password' element={<EditingEmailPassword />} />
-						<Route path='ID' element={<EditingID />} />
+						{SettingRouts.map(setting => {
+							return (
+								<Route
+									key={setting.path}
+									path={setting.path}
+									element={<setting.element />}
+								/>
+							)
+						})}
 					</Route>
 				</Route>
 				<Route

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router'
 import axios from '@/lib/axios'
 import toast from 'react-hot-toast'
@@ -9,6 +9,7 @@ import { useAuthStore } from '@/store'
 import { Logout } from '@/components/shared'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface Props {
 	className?: string
@@ -38,7 +39,6 @@ const SettingsItem: React.FC<React.PropsWithChildren<Props>> = ({
 }
 
 export const Settings = () => {
-	const [imageUrl, setImageUrl] = useState('')
 	const { authUser, updateProfile } = useAuthStore()
 
 	const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,12 +58,12 @@ export const Settings = () => {
 			}/${data.url}`
 
 			updateProfile({ avatarUrl: imageUrl })
-			setImageUrl(imageUrl)
 		} catch (error) {
 			console.error('Failed to send/edit message:', error)
 			toast.error('Произошла ошибка при изменении профиля')
 		}
 	}
+
 	return (
 		<div className='h-settings_xs xs:h-settings w-screen xs:w-full -mx-5 xs:m-0 rounded-lg bg-white xs:max-w-95'>
 			<div className='border-b-2 border-zinc-400 xxs:px-[12%] xs:px-0'>
@@ -73,7 +73,7 @@ export const Settings = () => {
 				>
 					<AspectRatio ratio={16 / 9}>
 						<img
-							src={imageUrl || authUser?.avatarUrl || 'AddImg.png'}
+							src={authUser?.avatarUrl ?? 'AddImg.png'}
 							alt='avatar'
 							className='h-full w-full -mt-7 xs:m-0 xs:rounded-t-lg'
 						/>
@@ -87,68 +87,70 @@ export const Settings = () => {
 					/>
 				</label>
 			</div>
-			<div className='h-full w-full mt-12 flex flex-col justify-between mx-auto gap-4 max-h-setting_xs max-w-95'>
-				<div>
-					<div className='group'>
-						<SettingsItem navPage='name&surname'>
-							<p>{authUser?.name}</p>
-							<Button
-								size='icon'
-								variant='link'
-								className='w-8 h-8 [&_svg]:size-6'
-							>
-								<AddLogo className='stroke-default stroke-2' />
-							</Button>
-						</SettingsItem>
-						<SettingsItem navPage='name&surname'>
-							<p>{authUser?.surname}</p>
-						</SettingsItem>
-					</div>
+			<ScrollArea className='mt-6 h-full max-h-setting_xxs xxs:max-h-setting_xs xs:max-h-setting'>
+				<div className='h-setting_xxs  xxs:h-setting_xs w-full flex flex-col justify-between mx-auto gap-4  max-w-95'>
+					<div>
+						<div className='group'>
+							<SettingsItem navPage='name&surname'>
+								<p>{authUser?.name}</p>
+								<Button
+									size='icon'
+									variant='link'
+									className='w-8 h-8 [&_svg]:size-6'
+								>
+									<AddLogo className='stroke-default stroke-2' />
+								</Button>
+							</SettingsItem>
+							<SettingsItem navPage='name&surname'>
+								<p>{authUser?.surname}</p>
+							</SettingsItem>
+						</div>
 
-					<div className='group'>
-						<SettingsItem navPage='email&password'>
-							<p>{authUser?.email}</p>
-							<Button
-								size='icon'
-								variant='link'
-								className='w-8 h-8 [&_svg]:size-6'
-							>
-								<AddLogo
-									width='24px'
-									height='24px'
-									className='stroke-default stroke-2'
-								/>
-							</Button>
-						</SettingsItem>
-						<SettingsItem navPage='email&password'>
-							<p>***********</p>
-						</SettingsItem>
-					</div>
+						<div className='group'>
+							<SettingsItem navPage='email&password'>
+								<p>{authUser?.email}</p>
+								<Button
+									size='icon'
+									variant='link'
+									className='w-8 h-8 [&_svg]:size-6'
+								>
+									<AddLogo
+										width='24px'
+										height='24px'
+										className='stroke-default stroke-2'
+									/>
+								</Button>
+							</SettingsItem>
+							<SettingsItem navPage='email&password'>
+								<p>***********</p>
+							</SettingsItem>
+						</div>
 
-					<div className='group'>
-						<SettingsItem navPage='ID'>
-							<div className='flex gap-2.5'>
-								ID
-								<p className='font-normal'>{authUser?.UserID}</p>
-							</div>
-							<Button
-								size='icon'
-								variant='link'
-								className='w-8 h-8 [&_svg]:size-6'
-							>
-								<AddLogo
-									width='24px'
-									height='24px'
-									className='stroke-default stroke-2'
-								/>
-							</Button>
-						</SettingsItem>
+						<div className='group'>
+							<SettingsItem navPage='ID'>
+								<div className='flex gap-2.5'>
+									ID
+									<p className='font-normal'>{authUser?.UserID}</p>
+								</div>
+								<Button
+									size='icon'
+									variant='link'
+									className='w-8 h-8 [&_svg]:size-6'
+								>
+									<AddLogo
+										width='24px'
+										height='24px'
+										className='stroke-default stroke-2'
+									/>
+								</Button>
+							</SettingsItem>
+						</div>
+					</div>
+					<div className='xs:hidden'>
+						<Logout className='py-0' />
 					</div>
 				</div>
-				<div className='xs:hidden'>
-					<Logout />
-				</div>
-			</div>
+			</ScrollArea>
 		</div>
 	)
 }

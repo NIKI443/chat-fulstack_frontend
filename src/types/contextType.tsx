@@ -126,12 +126,12 @@ export function useMenu({
 			}
 		}
 		if (itemRef?.current) {
-			itemRef.current.addEventListener('pointerdown', onDivClick)
+			itemRef.current.addEventListener('contextmenu', onDivClick)
 
 			itemRef.current.addEventListener('pointerup', onMouseUp)
 			return () => {
 				itemRef.current?.removeEventListener('pointerup', onMouseUp)
-				itemRef.current?.addEventListener('pointerdown', onMouseUp)
+				itemRef.current?.addEventListener('contextmenu', onMouseUp)
 			}
 		}
 	}, [click, data.refs, setOpen, coordinateMenu])

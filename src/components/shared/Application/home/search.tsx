@@ -50,6 +50,8 @@ export const Search: React.FC<Props> = ({
 				<Input
 					placeholder={placeholder}
 					type='text'
+					onClick={() => useChatStore.setState({ isActiveSidMenu: false })}
+					onBlur={() => useChatStore.setState({ isActiveSidMenu: true })}
 					onChange={e => setSearchText(e.target.value)}
 					className={cn(
 						'bg-backDefault border-none rounded-2xl outline-none w-full pl-11 placeholder:text-black/75 active:border-none h-11',

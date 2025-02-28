@@ -1,21 +1,17 @@
-import { useEffect } from 'react'
 import {
 	Chat,
 	SidebarMenu,
 	VerticalCenterContainer,
 	NoChatSelected,
 } from '@/components/shared/index'
-import { useChatStore, useAuthStore } from '@/store'
+import { useChatStore } from '@/store'
 import AnimatedOutlet from './components/shared/animated/AnimatedOutlet'
 import { ChatMobil } from './components/shared/Application/chat/chatMobil'
+import { useLocation } from 'react-router'
 
-function LayoutPage() {
-	const { selectedUser } = useChatStore()
-	const { AuthMe } = useAuthStore()
-
-	useEffect(() => {
-		AuthMe()
-	}, [AuthMe])
+export default function LayoutPage() {
+	const { selectedUser, isActiveSidMenu } = useChatStore()
+	const location = useLocation()
 
 	return (
 		<div className='xs:bg-[#DECFF4]'>
@@ -24,7 +20,13 @@ function LayoutPage() {
 				{/* overflow-y-hidden */}
 				<div className='w-full h-full inline-block align-middle'>
 					<div className='w-full h-full grid justify-normal items-end xs:grid-flow-col xs:grid-cols-menubar_s lg:grid-cols-menubar'>
-						<SidebarMenu />
+						<div className='w-full h-full row-start-2 block xs:hidden'>
+							{(location.pathname == '/' || location.pathname == '/settings') &&
+								isActiveSidMenu && <SidebarMenu />}
+						</div>
+						<div className='w-full h-full hidden xs:block'>
+							<SidebarMenu />
+						</div>
 						<main className='w-full h-full gap-x-8 max-h-svh pt-7 px-5 xs:p-6 flex justify-center  xs:rounded-r-2xl xs:bg-primary'>
 							<div className='h-full w-full xs:w-95'>
 								<AnimatedOutlet />
@@ -39,5 +41,3 @@ function LayoutPage() {
 		</div>
 	)
 }
-
-export default LayoutPage

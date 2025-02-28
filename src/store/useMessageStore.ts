@@ -78,7 +78,7 @@ export const useMessageStore = create<MessageState & MessageActions>()(
 			const endMessages = useDialogStore.getState().endMessages
 
 			try {
-				const res = await axios.post(
+				 await axios.post(
 					`/massage/${messageId}/${selectedUser?._id}`,
 					messageData
 				)

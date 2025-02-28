@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Button } from '../../../ui/button'
 import { Chat } from './chat'
@@ -29,16 +30,36 @@ const pageTransition = {
 export const ChatMobil = () => {
 	const { selectedUser, open, setOpen } = useChatStore()
 
+ useEffect(() => {
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				setOpen(false)
+			}
+		}
+
+		const handleBackButton = () => {
+			setOpen(false)
+		}
+
+		document.addEventListener('keydown', handleKeyDown)
+		window.addEventListener('popstate', handleBackButton)
+
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown)
+			window.removeEventListener('popstate', handleBackButton)
+		}
+ }, [setOpen])
+
 	return (
 		<AnimatePresence>
-			{ open && selectedUser && (
+			{open && selectedUser && (
 				<motion.div
 					initial='initial'
 					animate='animate'
 					exit='exit'
 					variants={pageVariants}
 					transition={pageTransition}
-					className='z-50 fixed bg-white w-screen h-screen block xs:hidden'
+					className='z-50 fixed bg-white w-screen h-chat_mobil block xs:hidden'
 				>
 					<Button
 						size='icon'

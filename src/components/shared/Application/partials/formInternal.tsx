@@ -172,7 +172,7 @@ export const FormInternal: React.FC<React.PropsWithChildren<Props>> = ({
 						{config.isUse && (
 							<FormField
 								control={form.control}
-								name={config.name}
+								name={config.name as keyof FormSchemaType}
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>{config.label}</FormLabel>

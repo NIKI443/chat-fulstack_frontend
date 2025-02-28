@@ -81,7 +81,7 @@ export const MessageItem: FC<Props> = ({
 								/>
 							</Slide>
 						)}
-						<p className='select-text'>{messageText}</p>
+						<p className='select-text whitespace-pre-wrap'>{messageText}</p>
 					</div>
 					<div
 						className={`bg-[#F1F1F1] rounded-[0.5rem] w-20 mt-2 flex justify-center gap-1.5 py-1 text-xs 
@@ -103,9 +103,9 @@ export const MessageItem: FC<Props> = ({
 						className='[&_svg]:size-5 '
 						onItemSelect={handleItemSelect}
 						dataValue={{
-							id: messageId ,
+							id: messageId,
 							do: 'update',
-							text: messageText ,
+							text: messageText,
 							imgUrl: messageImg,
 						}}
 						message

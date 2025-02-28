@@ -1,7 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, KeyboardEvent } from 'react'
 import AddPlusLogo from '~/appsPicture/plus.svg?react'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { useMessageStore } from '@/store'
 import axios from '@/lib/axios'
@@ -27,7 +33,7 @@ export const MassageField: React.FC<Props> = ({
 	const { sendMessage, editMessage } = useMessageStore()
 
 	useEffect(() => {
-		if (updateOfMessage?.messageId ) {
+		if (updateOfMessage?.messageId) {
 			setMessage(updateOfMessage?.text ?? '')
 			setImagePreview(updateOfMessage?.imgUrl ?? '')
 		} else {
@@ -45,6 +51,7 @@ export const MassageField: React.FC<Props> = ({
 
 	const handleSendMessage = async (e: React.FormEvent) => {
 		e.preventDefault()
+
 		if (!message.trim() && !imagePreview) return
 		try {
 			let imageUrl, imageWidth, imageHeight
@@ -111,6 +118,13 @@ export const MassageField: React.FC<Props> = ({
 		}
 	}
 
+	const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+		if (e.key === 'Enter' && e.shiftKey) {
+			e.preventDefault()
+			handleSendMessage(e as unknown as React.FormEvent)
+		}
+	}
+
 	const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0]
 		if (!file) return
@@ -164,7 +178,7 @@ export const MassageField: React.FC<Props> = ({
 						size='icon'
 						variant='link'
 						className={`h-14 -mx-3 right-0 rounded-lg`}
-						onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+						onClick={(e: React.PointerEvent<HTMLButtonElement>) => {
 							e.preventDefault()
 							inputFileRef.current?.click()
 						}}
@@ -174,34 +188,49 @@ export const MassageField: React.FC<Props> = ({
 					<input
 						ref={inputFileRef}
 						type='file'
+						accept='image/*'
 						onChange={handleChangeImage}
 						hidden
 					/>
 					<Textarea
 						placeholder='Сообщение...'
 						value={message}
-						onChange={e => setMessage(e.target.value)}
+						onChange={e => {
+							setMessage(e.target.value)
+						}}
+						onKeyDown={handleKeyDown}
 						className='w-full h-28 xs:h-14 pt-3 resize-none textarea-radix-scroll-area-viewport border-none outline-none shadow-none focus-visible:ring-transparent text-zinc-700 placeholder:text-ring active:border-none'
 					/>
-					<Button
-						type='submit'
-						size='icon'
-						variant='link'
-						className={`h-14 mt-5 mr-4 xs:m-0 ${
-							updateOfMessage?.messageId ? 'w-18 pl-2' : 'w-22 pl-10'
-						} absolute right-0 rounded-lg bg-primary/25 hover:bg-primary/35 duration-200`}
-						disabled={!message?.trim() && !imagePreview}
-					>
-						{updateOfMessage?.messageId ? (
-							<img
-								src='appsPicture/check-mark.svg'
-								alt='Отправить'
-								className='w-5 stroke-default'
-							/>
-						) : (
-							<img src='appsPicture/arrow-right.svg' alt='Отправить' />
-						)}
-					</Button>
+
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger asChild className=''>
+								<Button
+									type='submit'
+									size='icon'
+									variant='link'
+									className={`h-14 mt-5 mr-4 xs:m-0 ${
+										updateOfMessage?.messageId ? 'w-18 pl-2' : 'w-22 pl-10'
+									} absolute right-0 rounded-lg bg-primary/25 hover:bg-primary/35 duration-200`}
+									disabled={!message?.trim() && !imagePreview}
+								>
+									{updateOfMessage?.messageId ? (
+										<img
+											src='appsPicture/check-mark.svg'
+											alt='Отправить'
+											className='w-5 stroke-default'
+										/>
+									) : (
+										<img src='appsPicture/arrow-right.svg' alt='Отправить' />
+									)}
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent className='w-[10.5rem] rounded-xl bg-backDefault'>
+								<p>отправить (Shift+Enter)</p>
+								<p>перенести строку (Enter)</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				</div>
 			</form>
 		</div>

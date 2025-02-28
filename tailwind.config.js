@@ -32,13 +32,16 @@ module.exports = {
 				field: 'calc(100% - 1rem)',
 				friend: 'calc(100svh - 10.65rem)',
 				addFriend: 'calc(100svh - 10.25rem)',
-				friend_xs: 'calc(100svh - 15.25rem)',
+				friend_xs_inactive: 'calc(100svh - 15.25rem)',
+				friend_xs_active: 'calc(100svh - 8.75rem)',
 				settings: 'calc(100svh - 3rem)',
 				settings_xs: 'calc(100svh - 7.75rem)',
-				setting_xs: 'calc(100svh - 25.75rem)',
+				setting: 'calc(100svh - 18.5rem)',
+				setting_xs: 'calc(98svh - 31rem)',
+				setting_xxs: 'calc(100svh - 24.5rem)',
 				chat_tablet: 'calc(100svw - 32.25rem)',
+				chat_mobil: 'calc(100svh + 1rem)',
 			},
-
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
@@ -102,9 +105,13 @@ module.exports = {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' },
 				},
+				loadingFrame: {
+					to: { clipPath: 'inset(0 -1ch 0 0)' },
+				},
 			},
 			animation: {
 				wiggle: 'wiggle 1s linear infinite',
+				loading: 'loadingFrame 1s steps(4) infinite',
 			},
 		},
 	},

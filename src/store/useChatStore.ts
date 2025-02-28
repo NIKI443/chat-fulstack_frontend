@@ -8,6 +8,7 @@ interface ChatState {
 	filteredUsers: User[]
 	selectedUser: Chats | User | null
 	isUsersLoading: boolean
+	isActiveSidMenu: boolean
 	open: boolean
 }
 interface ChatActions {
@@ -22,6 +23,7 @@ export const useChatStore = create<ChatState & ChatActions>()((set, get) => ({
 	filteredUsers: [],
 	selectedUser: null,
 	isUsersLoading: false,
+	isActiveSidMenu: true,
 	open: false,
 
 	setOpen: (isOpen: boolean) => set({ open: isOpen }),
