@@ -1,0 +1,90 @@
+.modal__select-wrapper {
+	width: 100%;
+	margin-bottom: 15px;
+	position: relative;
+	margin-top: 0.625rem;
+}
+
+.modal__select-header {
+	padding: 10px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	font-size: 0.875rem;
+	color: var(--gray);
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	border-radius: 1.25rem;
+}
+
+.modal__select-options {
+	z-index: 100;
+	display: none;
+	position: absolute;
+	font-size: 0.875rem;
+	color: var(--gray);
+	top: 100%;
+	left: 0;
+	right: 0;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-top: none;
+	border-radius: 0 0 1.25rem 1.25rem;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+.modal__select-options label,
+.modal__select-options p {
+	display: flex;
+	gap: 0.75rem;
+	padding: 10px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.modal__select-options label:hover,
+.modal__select-options p:hover {
+	background-color: #f0f0f0;
+}
+
+.modal__select-wrapper.open .modal__select-options {
+	display: block;
+	opacity: 1;
+	visibility: visible;
+}
+
+.modal__select-wrapper.open .modal__select-header {
+	border-radius: 1.25rem 1.25rem 0 0;
+	background-color: #f0f0f0;
+}
+.modal__select-wrapper.open .modal__select-arrow {
+	transform: rotate(225deg);
+	top: 38%;
+}
+
+.modal__select-options label:not(:last-child),
+.modal__select-options p:not(:last-child) {
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.modal__select-options label span {
+	transition: font-weight 0.3s ease;
+}
+
+.modal__select-below {
+	display: flex;
+	gap: 0.5rem;
+}
+.modal__select-arrow {
+	position: absolute;
+	right: 1.25rem;
+	transform: rotate(45deg);
+	width: 0.625rem;
+	height: 0.625rem;
+	border-right: 2px solid #000;
+	border-bottom: 2px solid #000;
+	transition: all 0.3s ease;
+}

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Modal Window</title>
+		<link rel="stylesheet" href="css/index.css" />
+	</head>
+	<body>
+		<div class="modal">
+			<button class="modal__trigger">Открыть модальное окно</button>
+			<div class="modal__window">
+				<div class="modal__content">
+					<div class="modal__header">
+						<h1 class="modal__title">Калькулятор</h1>
+						<button class="modal__close"></button>
+					</div>
+
+					<form class="modal__form" id="modal__form">
+						<div class="modal__step">
+							<div class="modal__step-header">
+								<h2 class="modal__step-title">
+									<span class="modal__marker"> Шаг 1 </span>
+									Добавьте товары или выберите заказ
+								</h2>
+								<div class="modal__order">
+									<div class="modal__field">
+										<div class="modal__field-label">
+											<p>Выберите заказ</p>
+											<p class="modal__order-tip">?</p>
+										</div>
+										<div class="modal__select-wrapper">
+											<div class="modal__select-header">
+												Начните вводить номер заказа
+												<span class="modal__select-arrow"></span>
+											</div>
+
+											<div class="modal__select-options">
+												<p>12</p>
+												<p>243</p>
+												<p>1231</p>
+												<p>4534</p>
+												<p>10201</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal__product">
+								<div class="modal__product-wrapper">
+									<p class="modal__product-title modal__marker">Товар 1</p>
+									<span class="modal__product-remove"></span>
+
+									<div class="modal__field">
+										<p class="modal__field-label">Название товара</p>
+										<input
+											type="text"
+											class="modal__field-input name-product"
+											placeholder="Название товара"
+											required
+										/>
+										<p class="modal__field-description">
+											Скорее всего это
+											<span class="modal__marker">линия "Одежда"</span>
+										</p>
+									</div>
+									<div class="modal__product-details">
+										<div class="modal__dimensions">
+											<div class="modal__dimensions-group">
+												<div class="modal__field">
+													<p class="modal__field-label">Длина, см</p>
+													<input
+														type="number"
+														class="modal__field-input"
+														name="length"
+														placeholder="Длина"
+													/>
+												</div>
+												<div class="modal__field">
+													<p class="modal__field-label">Ширина, см</p>
+													<input
+														type="number"
+														class="modal__field-input"
+														name="width"
+														placeholder="Ширина"
+													/>
+												</div>
+												<div class="modal__field">
+													<p class="modal__field-label">Высота, см</p>
+													<input
+														type="number"
+														class="modal__field-input"
+														name="height"
+														placeholder="Высота"
+													/>
+												</div>
+											</div>
+
+											<div class="modal__details-group">
+												<div class="modal__field">
+													<p class="modal__field-label">Вес коробки, кг</p>
+													<input
+														type="number"
+														class="modal__field-input"
+														name="heft"
+														placeholder="Вес"
+													/>
+												</div>
+												<div class="modal__field">
+													<p class="modal__field-label">Кол-во, шт</p>
+													<input
+														type="number"
+														class="modal__field-input"
+														name="amount"
+														placeholder="Количество"
+													/>
+												</div>
+												<div class="modal__field">
+													<p class="modal__field-label">Стоимость товара, ¥</p>
+													<input
+														type="number"
+														class="modal__field-input"
+														name="price"
+														placeholder="Стоимость"
+													/>
+												</div>
+											</div>
+										</div>
+										<div class="modal__product-details--or">
+											или
+											<div class="modal__field">
+												<p class="modal__field-label">Введите объём</p>
+												<input
+													type="number"
+													class="modal__field-input velomm"
+													name="volume"
+													placeholder="Объём"
+												/>
+											</div>
+										</div>
+									</div>
+									<label class="modal__checkbox">
+										<input
+											type="checkbox"
+											name="confirm"
+											class="modal__checkbox-input"
+										/>
+										Хрупкий товар
+									</label>
+								</div>
+							</div>
+
+							<button type="submit" class="modal__submit-add">
+								<p class="modal__submit-add-icon">+</p>
+								Добавить товар
+							</button>
+
+							<hr class="modal__separator" />
+
+							<div class="modal__product-result">
+								<p class="modal__result-title">Результат подсчета</p>
+								<div class="result">
+									<div class="modal__field">
+										<p class="modal__field-label">Общий вес</p>
+										<input
+											type="text"
+											class="modal__field-input"
+											placeholder="Вес"
+											disabled
+										/>
+									</div>
+									<div class="modal__field">
+										<p class="modal__field-label">Общий объём</p>
+										<input
+											type="text"
+											class="modal__field-input"
+											placeholder="Объём"
+											disabled
+										/>
+									</div>
+									<div class="modal__field">
+										<p class="modal__field-label">Плотность товаров</p>
+										<input
+											type="text"
+											class="modal__field-input"
+											placeholder="Плотность"
+											disabled
+										/>
+									</div>
+									<div class="modal__field">
+										<p class="modal__field-label">Стоимость товаров, $</p>
+										<input
+											type="text"
+											class="modal__field-input"
+											placeholder="Стоимость"
+											disabled
+										/>
+									</div>
+								</div>
+							</div>
+
+							<hr class="modal__separator" />
+						</div>
+						<div class="modal__step">
+							<h2 class="modal__step-title">
+								<span class="modal__marker"> Шаг 2</span>
+								Укажите упаковку
+								<p class="modal__step-tip">
+									Совет: используйте
+									<span class="modal__marker">Обрешётку</span>
+								</p>
+							</h2>
+							<div class="modal__select-wrapper package">
+								<div class="modal__select-header">
+									Выберите упаковку <span class="modal__select-arrow"></span>
+								</div>
+
+								<div class="modal__select-options">
+									<label>
+										<input
+											type="checkbox"
+											value="Пупырка"
+											class="modal__checkbox-input"
+										/>
+										Пупырка
+									</label>
+									<label>
+										<input
+											type="checkbox"
+											value="Паллета"
+											class="modal__checkbox-input"
+										/>
+										Паллета
+									</label>
+									<label>
+										<input
+											type="checkbox"
+											value="Фанера"
+											class="modal__checkbox-input"
+										/>
+										Фанера
+									</label>
+								</div>
+
+								<div class="modal__select-below"></div>
+							</div>
+							<hr class="modal__separator" />
+
+							<div class="modal__result-total">
+								<p class="modal__result-title">Перерасчёт с учётом упаковки</p>
+								<div class="result">
+									<div class="modal__field">
+										<p class="modal__field-label">Итого вес</p>
+										<input
+											type="number"
+											class="modal__field-input"
+											placeholder="Вес"
+											disabled
+										/>
+									</div>
+									<div class="modal__field">
+										<p class="modal__field-label">Итого объём</p>
+										<input
+											type="number"
+											class="modal__field-input"
+											placeholder="Объём"
+											disabled
+										/>
+									</div>
+									<div class="modal__field">
+										<p class="modal__field-label">Итого плотность</p>
+										<input
+											type="number"
+											class="modal__field-input"
+											placeholder="Плотность"
+											disabled
+										/>
+									</div>
+									<div class="modal__field">
+										<p class="modal__field-label">Страховка, %</p>
+										<input
+											type="text"
+											class="modal__field-input"
+											placeholder="Страховка"
+											value="1%"
+											disabled
+										/>
+									</div>
+								</div>
+							</div>
+
+							<hr class="modal__separator" />
+						</div>
+						<button type="submit" class="modal__submit">
+							Сохранить расчет
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+	<script src="js/main.js"></script>
+	<script src="js/form.js"></script>
+	<script src="js/product.js"></script>
+</html>
