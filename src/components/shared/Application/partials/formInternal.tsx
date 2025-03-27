@@ -1,21 +1,22 @@
-import React from 'react'
-import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { Loader } from '@/components/shared'
+import { Button } from '@/components/ui/button'
 import {
+	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
-	Form,
-	FormDescription,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Loader } from '@/components/shared'
+import { cn } from '@/lib/utils'
+import { useAuthStore } from '@/store'
 import { UserAuthData } from '@/types/storeType'
+import { zodResolver } from '@hookform/resolvers/zod'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const messageMinMax = (min: number, max: number) => {
 	return { message: `Введите от ${min} до ${max} символов` }
@@ -54,6 +55,7 @@ export const FormInternal: React.FC<React.PropsWithChildren<Props>> = ({
 	isPassword,
 	isUserID,
 }) => {
+	const { authUser } = useAuthStore()
 	const FormSchema = z.object({
 		email: isEmail
 			? z.string().email({
@@ -100,16 +102,16 @@ export const FormInternal: React.FC<React.PropsWithChildren<Props>> = ({
 					.optional()
 					.or(z.literal('')),
 	})
- type FormSchemaType = z.infer<typeof FormSchema>
+	type FormSchemaType = z.infer<typeof FormSchema>
 
 	const form = useForm<FormSchemaType>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			name: 'Никита',
-			surname: '',
-			email: 'test@test.com',
-			password: 'qweqwe',
-			UserID: 'qwer',
+			name: authUser?.name,
+			surname: authUser?.surname,
+			email: authUser?.email || 'test@test.com',
+			password: authUser?.passwordHash || 'qweqwe',
+			UserID: authUser?.UserID,
 		},
 	})
 
@@ -173,16 +175,18 @@ export const FormInternal: React.FC<React.PropsWithChildren<Props>> = ({
 							<FormField
 								control={form.control}
 								name={config.name as keyof FormSchemaType}
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>{config.label}</FormLabel>
-										<FormControl>
-											<Input placeholder={config.placeholder} {...field} />
-										</FormControl>
-										<FormDescription>{config.description}</FormDescription>
-										<FormMessage />
-									</FormItem>
-								)}
+								render={({ field }) => {
+									return (
+										<FormItem>
+											<FormLabel>{config.label}</FormLabel>
+											<FormControl>
+												<Input placeholder={config.placeholder} {...field} />
+											</FormControl>
+											<FormDescription>{config.description}</FormDescription>
+											<FormMessage />
+										</FormItem>
+									)
+								}}
 							/>
 						)}
 					</div>
